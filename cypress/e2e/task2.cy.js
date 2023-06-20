@@ -1,3 +1,5 @@
+import t2Data from '../fixtures/task2Vars.json'
+
 describe('Cowlar Task2', () => {
 
   Cypress.on('uncaught:exception', (err, runnable) => {
@@ -21,28 +23,50 @@ describe('Cowlar Task2', () => {
       .get('.main-header')
       .should('have.text', 'Interactions')
 
-    for (let i = 0; i < 6; i++) {
-      let array = ['Elements', 'Forms', 'Alerts, Frame & Windows', 'Widgets', 'Interactions', 'Book Store Application']
-      cy
-        .get('.element-group')
-        .eq(i)
-        .find('.header-text')
-        .should('have.text', array[i])
-    }
+    let array = [t2Data.tab1, t2Data.tab2, t2Data.tab3, t2Data.tab4, t2Data.tab5, t2Data.tab6]
+
+    //Removed the for loop. Personally I think for loop is better, leaves less code footprint and any change in the webpage structure can
+    //easily be modified within minutes. Since the tabs aren't gonna change every other day. Usually new tabs are added or some removed. 
+    //Updating the fixtures folder can fix it real quick
+    cy
+      .get('.element-group')
+      .eq(0)
+      .find('.header-text')
+      .should('have.text', array[0])
+
+    cy
+      .get('.element-group')
+      .eq(1)
+      .find('.header-text')
+      .should('have.text', array[1])
+    cy
+      .get('.element-group')
+      .eq(2)
+      .find('.header-text')
+      .should('have.text', array[2])
+
+    cy
+      .get('.element-group')
+      .eq(3)
+      .find('.header-text')
+      .should('have.text', array[3])
+
+    cy
+      .get('.element-group')
+      .eq(4)
+      .find('.header-text')
+      .should('have.text', array[4])
+
+    cy
+      .get('.element-group')
+      .eq(5)
+      .find('.header-text')
+      .should('have.text', array[5])
+
 
     cy
       .contains('Resizable')
       .click()
-    /*
-        .get('.element-list')
-         .eq(4)
-         .invoke('css', 'display', 'block')
-         .then(() => {
-           cy
-           .contains('Resizable')
-           .click()
-         })
-    */
 
     cy
       .get('.main-header')
@@ -128,6 +152,8 @@ describe('Cowlar Task2', () => {
       .get('@re-box2')
       .trigger('mouseup')
   })
+
+
 
   it('Test run at default resolution', () => {
     cy.visit('https://demoqa.com/');

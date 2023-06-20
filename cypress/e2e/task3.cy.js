@@ -1,3 +1,6 @@
+import t3Data from "../fixtures/task3Vars.json"
+import t3BookData from "../fixtures/t3BookDetails.json"
+
 describe('Cowlar Task3', () => {
 
     Cypress.on('uncaught:exception', (err, runnable) => {
@@ -36,31 +39,28 @@ describe('Cowlar Task3', () => {
             .get('.main-header')
             .should('have.text', 'Book Store')
 
-        let bookTitile = 'Understanding ECMAScript 6'
         cy
-            .contains(bookTitile)
+            .contains(t3Data.bookTitile)
             .click()
+
 
         cy
             .get('#title-wrapper')
-            // .find('#title-label')
-            .should('have.text', 'Title : ' + bookTitile)
+            .should('have.text', 'Title : ' + t3Data.bookTitile)
 
-        let bookAuthor = 'Nicholas C. Zakas'
         cy
             .get('#author-wrapper')
-            .should('have.text', 'Author : ' + bookAuthor)
+            .should('have.text', 'Author : ' + t3Data.bookAuthor)
 
-        let bookPublisher = 'No Starch Press'
         cy
             .get('#publisher-wrapper')
-            .should('have.text', 'Publisher : ' + bookPublisher)
+            .should('have.text', 'Publisher : ' + t3Data.bookPublisher)
 
         /*
                 I tried to use cy.wait('@bookStore').then((response)=>{ }) and access the response body from there. 
-                But the test failed due to response.body being returned as an html instead of a JSON or array
+                But the test failed due to response.body being returned as an html instead of a JSON or array, 
                 response.body would return "<!doctype html><html><head><meta name="viewport" c…>\x3Cscript src="/bundle.js">\x3C/script></body></html>"
-                If it were returning a JSON or array, I would have easily grabbed the body object (isbn, title, etc) easily and verify
+                If it were returning a JSON or array, I would have easily grabbed the body object (isbn, title, etc) easily and verify.
                 As an alternative, Im calling the same GET request again and verifying the components. 
         */
         cy
@@ -69,40 +69,16 @@ describe('Cowlar Task3', () => {
                 url: 'https://demoqa.com/BookStore/v1/Book?ISBN=9781593277574'
             })
             .then((response) => {
-                expect(response.body.isbn).to.eq('9781593277574')
-                expect(response.body.title).to.eq('Understanding ECMAScript 6')
-                expect(response.body.subTitle).to.eq('The Definitive Guide for JavaScript Developers')
-                expect(response.body.author).to.eq('Nicholas C. Zakas')
-                expect(response.body.publish_date).to.eq('2016-09-03T00:00:00.000Z')
-                expect(response.body.publisher).to.eq('No Starch Press')
-                expect(response.body.pages).to.eq(352)
-                expect(response.body.description).to.eq('ECMAScript 6 represents the biggest update to the core of JavaScript in the history of the language. In Understanding ECMAScript 6, expert developer Nicholas C. Zakas provides a complete guide to the object types, syntax, and other exciting changes that E')
-                expect(response.body.website).to.eq('https://leanpub.com/understandinges6/read')
+                expect(response.body.isbn).to.eq(t3BookData.isbn)
+                expect(response.body.title).to.eq(t3BookData.title)
+                expect(response.body.subTitle).to.eq(t3BookData.subTitle)
+                expect(response.body.author).to.eq(t3BookData.author)
+                expect(response.body.publish_date).to.eq(t3BookData.publish_date)
+                expect(response.body.publisher).to.eq(t3BookData.publisher)
+                expect(response.body.pages).to.eq(t3BookData.pages)
+                expect(response.body.description).to.eq(t3BookData.description)
+                expect(response.body.website).to.eq(t3BookData.website)
             })
 
-        /*                response = JSON.stringify(response)
-                        var jsonData = JSON.parse(response.body)
-                        console.log(jsonData)
-                        console.log(`The printed response body is: ${resBody}`)
-                        expect(response.body[0]).to.eq('Nicholas C. Zakas')
-                    })
-        */
-        /*
-                            cy
-                                .wait('@bookStore')
-                                .its('response.body.title').should('eq', 'Understanding ECMAScript 6')
-                            cy
-                                .wait('@bookStore')
-                                .its('response.body.subTitle').should('eq', 'The Definitive Guide for JavaScript Developers')
-                            cy
-                                .wait('@bookStore')
-                                .its('response.body.publish_date').should('eq', '2016-09-03T00:00:00.000Z')
-                            cy
-                                .wait('@bookStore')
-                                .its('response.body.publisher').should('eq', 'No Starch Press')
-                            cy
-                                .wait('@bookStore')
-                                .its('response.body.pages').should('eq', 352)
-                */
     })
 })

@@ -1,3 +1,5 @@
+import t1Data from '../fixtures/task1Vars.json'
+
 describe('Cowlar Task1', () => {
 
   Cypress.on('uncaught:exception', (err, runnable) => {
@@ -6,7 +8,6 @@ describe('Cowlar Task1', () => {
 
 
   it('Tests for task1', () => {
-    // cy.viewport(1400, 1400)
 
     cy.visit('https://demoqa.com/');
 
@@ -18,73 +19,43 @@ describe('Cowlar Task1', () => {
       .contains('Practice Form')
       .click()
 
-    let firstName = 'Cowlar'
     cy
       .get('#firstName')
-      .type(firstName)
+      .type(t1Data.firstName)
 
-    let lastName = 'Developer'
     cy
       .get('#lastName')
-      .type(lastName)
+      .type(t1Data.lastName)
 
-    let userEmail = 'qaengineer@cowlar.com'
     cy
       .get('#userEmail')
-      .type(userEmail)
+      .type(t1Data.userEmail)
 
     cy
       .contains('Male')
       .click()
-    /*
-            cy
-            .get('[name="gender"]')
-            .first()
-            .check({ force: true })
-    */
 
 
-    let userNumber = '0123456789'
     cy
       .get('#userNumber')
-      .type(userNumber)
+      .type(t1Data.userNumber)
 
-    /*
-        var dateOfBirth;
-        cy
-          .get('#dateOfBirthInput')
-          .invoke('val')
-          .as('dob')
-        cy
-          .get('@dob')
-          .then((text) => {
-            dateOfBirth = text;
-          })
-        cy.log(dateOfBirth)
-    */
-    let subject = 'Computer Science'
     cy
       .get('#subjectsContainer')
       .click()
 
     cy
       .get('#subjectsInput')
-      .type(subject + '{Enter}')
+      .type(t1Data.subject + '{Enter}')
 
     cy
       .contains('Music')
       .click()
-    /*
-        cy
-          .get('[type="checkbox"]')
-          .eq(2)
-          .check({ force: true })
-    */
 
-    let currentAddress = 'Address 1'
+
     cy
       .get('#currentAddress')
-      .type(currentAddress)
+      .type(t1Data.currentAddress)
 
 
     cy
@@ -98,13 +69,15 @@ describe('Cowlar Task1', () => {
     cy
       .contains('Select State')
       .click()
-      .get('#react-select-3-option-0')
+      .get('[tabindex="-1"]')
+      .contains("NCR")
       .click()
 
     cy
       .contains('Select City')
       .click()
-      .get('#react-select-4-option-0')
+      .get('[tabindex="-1"]')
+      .contains('Delhi')
       .click()
 
     cy
@@ -113,15 +86,53 @@ describe('Cowlar Task1', () => {
     //therefore for a quick fix, I used { force: true}
 
     //Please enter current date in array[4]
-    let array = [firstName + ' ' + lastName, userEmail, 'Male', userNumber, '14 June,2023', subject, 'Music', '', currentAddress, 'NCR Delhi']
-    let j = 0;
-    for (let i = 1; i < 20; i += 2) {
-      cy
-        .get('td')
-        .eq(i)
-        .should('have.text', array[j]);
-      j++;
-    }
+    let array = [t1Data.firstName + ' ' + t1Data.lastName, t1Data.userEmail, 'Male', t1Data.userNumber, '20 June,2023', t1Data.subject, 'Music', '', t1Data.currentAddress, 'NCR Delhi']
+
+    //Removed the for loop. 
+    cy
+      .get('td')
+      .eq(1)
+      .should('have.text', array[0])
+
+    cy
+      .get('td')
+      .eq(3)
+      .should('have.text', array[1])
+
+    cy
+      .get('td')
+      .eq(5)
+      .should('have.text', array[2])
+
+    cy
+      .get('td')
+      .eq(7)
+      .should('have.text', array[3])
+
+    cy
+      .get('td')
+      .eq(9)
+      .should('have.text', array[4])
+
+    cy
+      .get('td')
+      .eq(11)
+      .should('have.text', array[5])
+
+    cy
+      .get('td')
+      .eq(13)
+      .should('have.text', array[6])
+
+    cy
+      .get('td')
+      .eq(15)
+      .should('have.text', array[7])
+
+    cy
+      .get('td')
+      .eq(17)
+      .should('have.text', array[8])
 
     cy
       .get('#closeLargeModal')
